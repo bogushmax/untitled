@@ -1,7 +1,7 @@
 #ifndef _MATH_VECTOR_
 #define _MATH_VECTOR_
 
-#include <iostream>
+#include <ostream>
 #include <cmath>
 
 namespace math
@@ -9,6 +9,9 @@ namespace math
 template<class T> class vector3;
 template<class T> class vector4;
 
+/**
+ * Two-dimensional vector class
+ */
 template<class T>
 class vector2
 {
@@ -17,28 +20,43 @@ class vector2
 public:
     T x, y;
 
-    explicit vector2(T n = T())
+    /**
+     * Construct vector (n, n)
+     */
+    explicit vector2(T n = T(0))
     {
         set(n);
     }
 
+    /**
+     * Construct vector (x, y)
+     */
     vector2(T x, T y)
     {
         set(x, y);
     }
 
+    /**
+     * Construct vector from array
+     */
     explicit vector2(T *a)
     {
         set(a);
     }
 
+    /**
+     * Construct vector (x, y) from (x, y, z)
+     */
     vector2(const vector3<T> &v) :
         x(v.x), y(v.y)
     {
     }
 
+    /**
+     * Construct vector (x / w, y / w) from (x, y, z, w)
+     */
     vector2(const vector4<T> &v) :
-        x(v.x), y(v.y)
+        x(v.x / v.w), y(v.y / v.w)
     {
     }
 
@@ -46,53 +64,91 @@ public:
     {
     }
 
+    /**
+     * Array access operator
+     * @return reference to i element
+     */
     inline T &operator [](unsigned int i)
     {
-        return *(&x + i);
+        return get(i);
     }
 
+    /**
+     * Array access operator
+     * @return reference to i element of constant vector
+     */
     inline const T &operator [](unsigned int i) const
     {
-        return *(&x + i);
+        return get(i);
     }
 
+    /**
+     * Access operator
+     * @return reference to i element
+     */
     inline T &operator ()(unsigned int i)
     {
-        return *(&x + i);
+        return get(i);
     }
 
+    /**
+     * Access operator
+     * @return reference to i element of constant vector
+     */
     inline const T &operator ()(unsigned int i) const
     {
-        return *(&x + i);
+        return get(i);
     }
 
+    /**
+     * Type cast
+     * @return array pointer
+     */
     inline operator T *()
     {
         return &x;
     }
 
+    /**
+     * Type cast
+     * @return constant array pointer
+     */
     inline operator const T *() const
     {
         return &x;
     }
 
+    /**
+     * Explicit getter
+     * @return reference to i element
+     */
     inline T &get(unsigned int i)
     {
         return *(&x + i);
     }
 
+    /**
+     * Explicit getter
+     * @return reference to i element of constant vector
+     */
     inline const T &get(unsigned int i) const
     {
         return *(&x + i);
     }
 
-    inline vector3<T> &set(T n = T())
+    /**
+     * Explicit setter vector (n, n)
+     */
+    inline vector3<T> &set(T n = T(0))
     {
         x = n;
         y = n;
         return *this;
     }
 
+    /**
+     * Explicit setter vector (x, y)
+     */
     inline vector3<T> &set(T x, T y)
     {
         this->x = x;
@@ -100,6 +156,9 @@ public:
         return *this;
     }
 
+    /**
+     * Explicit setter from array
+     */
     inline vector3<T> &set(T *a)
     {
         x = a[0];
@@ -107,13 +166,9 @@ public:
         return *this;
     }
 
-    inline vector2<T> &operator +=(T n)
-    {
-        x += n;
-        y += n;
-        return *this;
-    }
-
+    /**
+     * Operator +=
+     */
     inline vector2<T> &operator +=(const vector2<T> &v)
     {
         x += v.x;
@@ -121,28 +176,17 @@ public:
         return *this;
     }
 
+    /**
+     * Operator +
+     */
     inline vector2<T> operator +(const vector2<T> &v) const
     {
         return vector2<T> (x + v.x, y + v.y);
     }
 
-    inline vector2<T> operator +(const T n) const
-    {
-        return vector2<T> (x + n, y + n);
-    }
-
-    friend inline vector2<T> operator +(const T n, const vector2<T> &v)
-    {
-        return vector2<T> (n + v.x, n + v.y);
-    }
-
-    inline vector2<T> &operator -=(T n)
-    {
-        x -= n;
-        y -= n;
-        return *this;
-    }
-
+    /**
+     * Operator -=
+     */
     inline vector2<T> &operator -=(const vector2<T> &v)
     {
         x -= v.x;
@@ -150,21 +194,17 @@ public:
         return *this;
     }
 
+    /**
+     * Operator -
+     */
     inline vector2<T> operator -(const vector2<T> &v) const
     {
         return vector2<T> (x - v.x, y - v.y);
     }
 
-    inline vector2<T> operator -(const T n) const
-    {
-        return vector2<T> (x - n, y - n);
-    }
-
-    friend inline vector2<T> operator -(const T n, const vector2<T> &v)
-    {
-        return vector2<T> (n - v.x, n - v.y);
-    }
-
+    /**
+     * Operator *=
+     */
     inline vector2<T> &operator *=(T n)
     {
         x *= n;
@@ -172,28 +212,25 @@ public:
         return *this;
     }
 
-    inline vector2<T> &operator *=(const vector2<T> &v)
-    {
-        x *= v.x;
-        y *= v.y;
-        return *this;
-    }
-
-    inline vector2<T> operator *(const vector2<T> &v) const
-    {
-        return vector2<T> (x * v.x, y * v.y);
-    }
-
+    /**
+     * Operator *
+     */
     inline vector2<T> operator *(const T n) const
     {
         return vector2<T> (x * n, y * n);
     }
 
+    /**
+     * Operator *
+     */
     friend inline vector2<T> operator *(const T n, const vector2<T> &v)
     {
         return vector2<T> (n * v.x, n * v.y);
     }
 
+    /**
+     * Operator /=
+     */
     inline vector2<T> &operator /=(T n)
     {
         x /= n;
@@ -201,52 +238,53 @@ public:
         return *this;
     }
 
-    inline vector2<T> &operator /=(const vector2<T> &v)
-    {
-        x /= v.x;
-        y /= v.y;
-        return *this;
-    }
-
-    inline vector2<T> operator /(const vector2<T> &v) const
-    {
-        return vector2<T> (x / v.x, y / v.y);
-    }
-
+    /**
+     * Operator /
+     */
     inline vector2<T> operator /(const T n) const
     {
         return vector2<T> (x / n, y / n);
     }
 
-    friend inline vector2<T> operator /(const T n, const vector2<T> &v)
-    {
-        return vector2<T> (n / v.x, n / v.y);
-    }
-
+    /**
+     * Operator ==
+     */
     inline bool operator ==(const vector2<T> &v) const
     {
         return x == v.x && y == v.y;
     }
 
+    /**
+     * Operator !=
+     */
     inline bool operator !=(const vector2<T> &v) const
     {
         return x != v.y || y != v.y;
     }
 
+    /**
+     * @return scalar product
+     */
     friend inline T dot(const vector2<T> &v1, const vector2<T> &v2)
     {
         return v1.x * v2.x + v1.y * v2.y;
     }
 
-    inline const T length() const
+    /**
+     * @return vector length
+     */
+    inline T length() const
     {
         return std::sqrt(x * x + y * y);
     }
 
+    /**
+     * @return normalized vector
+     */
     inline vector2<T> normalize() const
     {
-        T len = length();
-        return vector2<T> (x / len, y / len);
+        T m = 1.0 / length();
+        return vector2<T> (x * m, y * m);
     }
 
     friend inline std::ostream &operator <<(std::ostream &s,
@@ -254,13 +292,16 @@ public:
     {
         return s << "(" << v.x << ", " << v.y << ")";
     }
-
 };
 
 typedef vector2<float> vector2f;
 typedef vector2<double> vector2d;
 typedef vector2<long double> vector2ld;
 
+
+/**
+ * Three-dimensional vector class
+ */
 template<class T>
 class vector3
 {
@@ -269,28 +310,43 @@ class vector3
 public:
     T x, y, z;
 
-    explicit vector3(T n = T())
+    /**
+     * Construct vector (n, n, n)
+     */
+    explicit vector3(T n = T(0))
     {
         set(n);
     }
 
+    /**
+     * Construct vector (x, y, z)
+     */
     vector3(T x, T y, T z)
     {
         set(x, y, z);
     }
 
+    /**
+     * Construct vector from array
+     */
     explicit vector3(T *a)
     {
         set(a);
     }
 
-    vector3(const vector2<T> &v, T z = T()) :
+    /**
+     * Construct vector (x, y, z) from (x, y)
+     */
+    vector3(const vector2<T> &v, T z = T(0)) :
         x(v.x), y(v.y), z(z)
     {
     }
 
+    /**
+     * Construct vector (x / w, y / w, z / w) from (x, y, z, w)
+     */
     vector3(const vector4<T> &v) :
-        x(v.x), y(v.y), z(v.z)
+        x(v.x / v.w), y(v.y / v.w), z(v.z / v.w)
     {
     }
 
@@ -298,47 +354,82 @@ public:
     {
     }
 
+    /**
+     * Array access operator
+     * @return reference to i element of vector
+     */
     inline T &operator [](unsigned int i)
     {
-        return *(&x + i);
+        return get(i);
     }
 
+    /**
+     * Array access operator
+     * @return reference to i element of constant vector
+     */
     inline const T &operator [](unsigned int i) const
     {
-        return *(&x + i);
+        return get(i);
     }
 
+    /**
+     * Access operator
+     * @return reference to i element of vector
+     */
     inline T &operator ()(unsigned int i)
     {
-        return *(&x + i);
+        return get(i);
     }
 
+    /**
+     * Access operator
+     * @return reference to i element of constant vector
+     */
     inline const T &operator ()(unsigned int i) const
     {
-        return *(&x + i);
+        return get(i);
     }
 
+    /**
+     * Type cast
+     * @return array pointer
+     */
     inline operator T *()
     {
         return &x;
     }
 
+    /**
+     * Type cast
+     * @return constant array pointer
+     */
     inline operator const T *() const
     {
         return &x;
     }
 
+    /**
+     * Explicit getter
+     * @return reference to i element
+     */
     inline T &get(unsigned int i)
     {
         return *(&x + i);
     }
 
+    /**
+     * Explicit getter
+     * @return reference to i element of constant vector
+     */
     inline const T &get(unsigned int i) const
     {
         return *(&x + i);
     }
 
-    inline vector3<T> &set(T n = T())
+    /**
+     * Explicit setter for vector (n, n, n)
+     */
+    inline vector3<T> &set(T n = T(0))
     {
         x = n;
         y = n;
@@ -346,6 +437,9 @@ public:
         return *this;
     }
 
+    /**
+     * Explicit setter for vector (x, y, z)
+     */
     inline vector3<T> &set(T x, T y, T z)
     {
         this->x = x;
@@ -354,6 +448,9 @@ public:
         return *this;
     }
 
+    /**
+     * Explicit setter from array
+     */
     inline vector3<T> &set(T *a)
     {
         x = a[0];
@@ -362,14 +459,9 @@ public:
         return *this;
     }
 
-    inline vector3<T> &operator +=(T n)
-    {
-        x += n;
-        y += n;
-        z += n;
-        return *this;
-    }
-
+    /**
+     * Operator +=
+     */
     inline vector3<T> &operator +=(const vector3<T> &v)
     {
         x += v.x;
@@ -378,29 +470,17 @@ public:
         return *this;
     }
 
+    /**
+     * Operator +
+     */
     inline vector3<T> operator +(const vector3<T> &v) const
     {
         return vector3<T> (x + v.x, y + v.y, z + v.z);
     }
 
-    inline vector3<T> operator +(const T n) const
-    {
-        return vector3<T> (x + n, y + n, z + n);
-    }
-
-    friend inline vector3<T> operator +(const T n, const vector3<T> &v)
-    {
-        return vector3<T> (n + v.x, n + v.y, n + v.z);
-    }
-
-    inline vector3<T> &operator -=(T n)
-    {
-        x -= n;
-        y -= n;
-        z -= n;
-        return *this;
-    }
-
+    /**
+     * Operator -=
+     */
     inline vector3<T> &operator -=(const vector3<T> &v)
     {
         x -= v.x;
@@ -409,21 +489,17 @@ public:
         return *this;
     }
 
+    /**
+     * Operator -
+     */
     inline vector3<T> operator -(const vector3<T> &v) const
     {
         return vector3<T> (x - v.x, y - v.y, z - v.z);
     }
 
-    inline vector3<T> operator -(const T n) const
-    {
-        return vector3<T> (x - n, y - n, z - n);
-    }
-
-    friend inline vector3<T> operator -(const T n, const vector3<T> &v)
-    {
-        return vector3<T> (n - v.x, n - v.y, n - v.z);
-    }
-
+    /**
+     * Operator *=
+     */
     inline vector3<T> &operator *=(T n)
     {
         x *= n;
@@ -432,29 +508,25 @@ public:
         return *this;
     }
 
-    inline vector3<T> &operator *=(const vector3<T> &v)
-    {
-        x *= v.x;
-        y *= v.y;
-        z *= v.z;
-        return *this;
-    }
-
-    inline vector3<T> operator *(const vector3<T> &v) const
-    {
-        return vector3<T> (x * v.x, y * v.y, z * v.z);
-    }
-
+    /**
+     * Operator *
+     */
     inline vector3<T> operator *(const T n) const
     {
         return vector3<T> (x * n, y * n, z * n);
     }
 
+    /**
+     * Operator *
+     */
     friend inline vector3<T> operator *(const T n, const vector3<T> &v)
     {
         return vector3<T> (n * v.x, n * v.y, n * v.z);
     }
 
+    /**
+     * Operator /=
+     */
     inline vector3<T> &operator /=(T n)
     {
         x /= n;
@@ -463,59 +535,63 @@ public:
         return *this;
     }
 
-    inline vector3<T> &operator /=(const vector3<T> &v)
-    {
-        x /= v.x;
-        y /= v.y;
-        z /= v.z;
-        return *this;
-    }
-
-    inline vector3<T> operator /(const vector3<T> &v) const
-    {
-        return vector3<T> (x / v.x, y / v.y, z / v.z);
-    }
-
+    /**
+     * Operator /
+     */
     inline vector3<T> operator /(const T n) const
     {
         return vector3<T> (x / n, y / n, z / n);
     }
 
-    friend inline vector3<T> operator /(const T n, const vector3<T> &v)
-    {
-        return vector3<T> (n / v.x, n / v.y, n / v.z);
-    }
-
+    /**
+     * Operator ==
+     */
     inline bool operator ==(const vector3<T> &v) const
     {
         return x == v.x && y == v.y && z == v.z;
     }
 
+    /**
+     * Operator !=
+     */
     inline bool operator !=(const vector3<T> &v) const
     {
         return x != v.x || y != v.y || z != v.z;
     }
 
+    /**
+     * @return scalar product
+     */
     friend inline T dot(const vector3<T> &v1, const vector3<T> &v2)
     {
         return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
     }
 
+    /**
+     * @return vector product
+     */
     friend inline vector3<T> cross(const vector3<T> &v1, const vector3<T> &v2)
     {
         return vector3<T> (v1.y * v2.z - v1.z * v2.y,
-                v1.z * v2.x - v1.x * v2.z, v1.x * v2.y - v1.y * v2.x);
+                           v1.z * v2.x - v1.x * v2.z,
+                           v1.x * v2.y - v1.y * v2.x);
     }
 
-    inline const T length() const
+    /**
+     * @return vector length
+     */
+    inline T length() const
     {
         return std::sqrt(x * x + y * y + z * z);
     }
 
+    /**
+     * @return normalized vector
+     */
     inline vector3<T> normalize() const
     {
-        T len = length();
-        return vector3<T> (x / len, y / len, z / len);
+        T m = 1.0 / length();
+        return vector3<T> (x * m, y * m, z * m);
     }
 
     friend inline std::ostream &operator <<(std::ostream &s,
@@ -523,13 +599,15 @@ public:
     {
         return s << "(" << v.x << ", " << v.y << ", " << v.z << ")";
     }
-
 };
 
 typedef vector3<float> vector3f;
 typedef vector3<double> vector3d;
 typedef vector3<long double> vector3ld;
 
+/**
+ * Homogeneous vector class
+ */
 template<class T>
 class vector4
 {
@@ -538,28 +616,43 @@ class vector4
 public:
     T x, y, z, w;
 
-    explicit vector4(T n = T())
+    /**
+     * Construct vector (n, n, n, n)
+     */
+    explicit vector4(T n = T(0))
     {
         set(n);
     }
 
-    vector4(T x, T y, T z, T w)
+    /**
+     * Construct vector (x, y, z, w)
+     */
+    vector4(T x, T y, T z, T w = T(1))
     {
         set(x, y, z, w);
     }
 
+    /**
+     * Construct vector from array
+     */
     explicit vector4(T *a)
     {
         set(a);
     }
 
-    vector4(const vector2<T> &v, T z = T(), T w = T()) :
+    /**
+     * Construct vector (x, y, z, w) from (x, y)
+     */
+    vector4(const vector2<T> &v, T z = T(0), T w = T(1)) :
         x(v.x), y(v.y), z(z), w(w)
     {
     }
 
-    vector4(const vector3<T> &v, T z = T()) :
-        x(v.x), y(v.y), z(z)
+    /**
+     * Construct vector (x, y, z, w) from (x, y, z)
+     */
+    vector4(const vector3<T> &v, T w = T(1)) :
+        x(v.x), y(v.y), z(v.z), w(w)
     {
     }
 
@@ -567,56 +660,94 @@ public:
     {
     }
 
+    /**
+     * Array access operator
+     * @return reference to i element of vector
+     */
     inline T &operator [](unsigned int i)
     {
-        return *(&x + i);
+        return get(i);
     }
 
+    /**
+     * Array access
+     * @return reference to i element of constant vector
+     */
     inline const T &operator [](unsigned int i) const
     {
-        return *(&x + i);
+        return get(i);
     }
 
+    /**
+     * Access operator
+     * @return reference to i element of vector
+     */
     inline T &operator ()(unsigned int i)
     {
-        return *(&x + i);
+        return get(i);
     }
 
+    /**
+     * Access operator
+     * @return reference to i element of constant vector
+     */
     inline const T &operator ()(unsigned int i) const
     {
-        return *(&x + i);
+        return get(i);
     }
 
+    /**
+     * Type cast
+     * @return array pointer
+     */
     inline operator T *()
     {
         return &x;
     }
 
+    /**
+     * Type cast
+     * @return constant array pointer
+     */
     inline operator const T *() const
     {
         return &x;
     }
 
+    /**
+     * Explicit getter
+     * @return reference to i element of vector
+     */
     inline T &get(unsigned int i)
     {
         return *(&x + i);
     }
 
+    /**
+     * Explicit getter
+     * @return reference to i element of constant vector
+     */
     inline const T &get(unsigned int i) const
     {
         return *(&x + i);
     }
 
-    inline vector4<T> &set(T n = T())
+    /**
+     * Explicit setter vector (n, n, n, n)
+     */
+    inline vector4<T> &set(T n = T(0))
     {
         x = n;
         y = n;
         z = n;
-        w = n;
+        w = 1;
         return *this;
     }
 
-    inline vector4<T> &set(T x, T y, T z, T w)
+    /**
+     * Explicit setter vector (x, y, z, w)
+     */
+    inline vector4<T> &set(T x, T y, T z, T w = T(1))
     {
         this->x = x;
         this->y = y;
@@ -625,6 +756,9 @@ public:
         return *this;
     }
 
+    /**
+     * Explicit setter from array
+     */
     inline vector4<T> &set(T *a)
     {
         x = a[0];
@@ -634,15 +768,9 @@ public:
         return *this;
     }
 
-    inline vector4<T> &operator +=(T n)
-    {
-        x += n;
-        y += n;
-        z += n;
-        w += n;
-        return *this;
-    }
-
+    /**
+     * Operator +=
+     */
     inline vector4<T> &operator +=(const vector4<T> &v)
     {
         x += v.x;
@@ -652,30 +780,17 @@ public:
         return *this;
     }
 
+    /**
+     * Operator +
+     */
     inline vector4<T> operator +(const vector4<T> &v) const
     {
         return vector4<T> (x + v.x, y + v.y, z + v.z, w + v.w);
     }
 
-    inline vector4<T> operator +(const T n) const
-    {
-        return vector4<T> (x + n, y + n, z + n, w + n);
-    }
-
-    friend inline vector4<T> operator +(const T n, const vector4<T> &v)
-    {
-        return vector4<T> (n + v.x, n + v.y, n + v.z, n + v.w);
-    }
-
-    inline vector4<T> &operator -=(T n)
-    {
-        x -= n;
-        y -= n;
-        z -= n;
-        w -= n;
-        return *this;
-    }
-
+    /**
+     * Operator -=
+     */
     inline vector4<T> &operator -=(const vector4<T> &v)
     {
         x -= v.x;
@@ -685,21 +800,17 @@ public:
         return *this;
     }
 
+    /**
+     * Operator -
+     */
     inline vector4<T> operator -(const vector4<T> &v) const
     {
         return vector4<T> (x - v.x, y - v.y, z - v.z, w - v.w);
     }
 
-    inline vector4<T> operator -(const T n) const
-    {
-        return vector4<T> (x - n, y - n, z - n, w - n);
-    }
-
-    friend inline vector4<T> operator -(const T n, const vector4<T> &v)
-    {
-        return vector2<T> (n - v.x, n - v.y, n - v.z, n - v.w);
-    }
-
+    /**
+     * Operator *=
+     */
     inline vector4<T> &operator *=(T n)
     {
         x *= n;
@@ -709,30 +820,25 @@ public:
         return *this;
     }
 
-    inline vector4<T> &operator *=(const vector4<T> &v)
-    {
-        x *= v.x;
-        y *= v.y;
-        z *= v.z;
-        w *= v.w;
-        return *this;
-    }
-
-    inline vector4<T> operator *(const vector4<T> &v) const
-    {
-        return vector4<T> (x * v.x, y * v.y, z * v.z, w * v.w);
-    }
-
+    /**
+     * Operator *
+     */
     inline vector4<T> operator *(const T n) const
     {
         return vector4<T> (x * n, y * n, z * n, w * n);
     }
 
+    /**
+     * Operator *
+     */
     friend inline vector4<T> operator *(const T n, const vector4<T> &v)
     {
         return vector4<T> (n * v.x, n * v.y, n * v.z, n * v.w);
     }
 
+    /**
+     * Operator /=
+     */
     inline vector4<T> &operator /=(T n)
     {
         x /= n;
@@ -742,63 +848,63 @@ public:
         return *this;
     }
 
-    inline vector4<T> &operator /=(const vector4<T> &v)
-    {
-        x /= v.x;
-        y /= v.y;
-        z /= v.z;
-        w /= v.w;
-        return *this;
-    }
-
-    inline vector4<T> operator /(const vector4<T> &v) const
-    {
-        return vector4<T> (x / v.x, y / v.y, z / v.z, w / v.w);
-    }
-
+    /**
+     * Operator /
+     */
     inline vector4<T> operator /(const T n) const
     {
         return vector4<T> (x / n, y / n, z / n, w / n);
     }
 
-    friend inline vector4<T> operator /(const T n, const vector4<T> &v)
-    {
-        return vector4<T> (n / v.x, n / v.y, n / v.z, n / v.w);
-    }
-
+    /**
+     * Operator ==
+     */
     inline bool operator ==(const vector4<T> &v) const
     {
         return x == v.x && y == v.y && z == v.z && w == v.w;
     }
 
+    /**
+     * Operator !=
+     */
     inline bool operator !=(const vector4<T> &v) const
     {
         return x != v.x || y != v.y || z != v.z || w != v.w;
     }
 
+    /**
+     * @return scalar product
+     */
     friend inline T dot(const vector4<T> &v1, const vector4<T> &v2)
     {
         return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
     }
 
-    inline const T length() const
+    /**
+     * @return vector length
+     */
+    inline T length() const
     {
         return std::sqrt(x * x + y * y + z * z + w * w);
     }
 
+    /**
+     * @return normalized vector
+     */
     inline vector4<T> normalize() const
     {
-        T len = length();
-        return vector4<T> (x / len, y / len, z / len, w / len);
+        T m = 1.0 / length();
+        return vector4<T> (x * m, y * m, z * m, w * m);
     }
 
     friend inline std::ostream &operator <<(std::ostream &s,
             const vector4<T> &v)
     {
-        return s << "(" << v.x << ", " << v.y << ", " << v.z << ", " << v.w
-                << ")";
+        return s << "(" << v.x << ", "
+                        << v.y << ", "
+                        << v.z << ", "
+                        << v.w << ")";
     }
-
 };
 
 typedef vector4<float> vector4f;
