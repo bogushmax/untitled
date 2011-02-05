@@ -39,7 +39,7 @@ public:
     /**
      * Construct vector from array
      */
-    explicit vector2(T *a)
+    explicit vector2(const T *a)
     {
         set(a);
     }
@@ -55,9 +55,11 @@ public:
     /**
      * Construct vector (x / w, y / w) from (x, y, z, w)
      */
-    vector2(const vector4<T> &v) :
-        x(v.x / v.w), y(v.y / v.w)
+    vector2(const vector4<T> &v)
     {
+        T m = 1.0 / v.w;
+        x *= m;
+        y *= m;
     }
 
     ~vector2()
@@ -137,7 +139,7 @@ public:
     }
 
     /**
-     * Explicit setter vector (n, n)
+     * Set vector (n, n)
      */
     inline vector3<T> &set(T n = T(0))
     {
@@ -147,7 +149,7 @@ public:
     }
 
     /**
-     * Explicit setter vector (x, y)
+     * Set vector (x, y)
      */
     inline vector3<T> &set(T x, T y)
     {
@@ -157,9 +159,9 @@ public:
     }
 
     /**
-     * Explicit setter from array
+     * Set vector from array
      */
-    inline vector3<T> &set(T *a)
+    inline vector3<T> &set(const T *a)
     {
         x = a[0];
         y = a[1];
@@ -329,7 +331,7 @@ public:
     /**
      * Construct vector from array
      */
-    explicit vector3(T *a)
+    explicit vector3(const T *a)
     {
         set(a);
     }
@@ -345,9 +347,12 @@ public:
     /**
      * Construct vector (x / w, y / w, z / w) from (x, y, z, w)
      */
-    vector3(const vector4<T> &v) :
-        x(v.x / v.w), y(v.y / v.w), z(v.z / v.w)
+    vector3(const vector4<T> &v)
     {
+        T m = 1.0 / v.w;
+        x *= m;
+        y *= m;
+        z *= m;
     }
 
     ~vector3()
@@ -427,7 +432,7 @@ public:
     }
 
     /**
-     * Explicit setter for vector (n, n, n)
+     * Set vector (n, n, n)
      */
     inline vector3<T> &set(T n = T(0))
     {
@@ -438,7 +443,7 @@ public:
     }
 
     /**
-     * Explicit setter for vector (x, y, z)
+     * Set vector (x, y, z)
      */
     inline vector3<T> &set(T x, T y, T z)
     {
@@ -449,9 +454,9 @@ public:
     }
 
     /**
-     * Explicit setter from array
+     * Set vector from array
      */
-    inline vector3<T> &set(T *a)
+    inline vector3<T> &set(const T *a)
     {
         x = a[0];
         y = a[1];
@@ -635,7 +640,7 @@ public:
     /**
      * Construct vector from array
      */
-    explicit vector4(T *a)
+    explicit vector4(const T *a)
     {
         set(a);
     }
@@ -733,7 +738,7 @@ public:
     }
 
     /**
-     * Explicit setter vector (n, n, n, n)
+     * Set vector (n, n, n, n)
      */
     inline vector4<T> &set(T n = T(0))
     {
@@ -745,7 +750,7 @@ public:
     }
 
     /**
-     * Explicit setter vector (x, y, z, w)
+     * Set vector (x, y, z, w)
      */
     inline vector4<T> &set(T x, T y, T z, T w = T(1))
     {
@@ -757,9 +762,9 @@ public:
     }
 
     /**
-     * Explicit setter from array
+     * Set vector from array
      */
-    inline vector4<T> &set(T *a)
+    inline vector4<T> &set(const T *a)
     {
         x = a[0];
         y = a[1];
