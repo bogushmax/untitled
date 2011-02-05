@@ -745,7 +745,7 @@ public:
         x = n;
         y = n;
         z = n;
-        w = 1;
+        w = T(1);
         return *this;
     }
 
