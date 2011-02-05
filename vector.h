@@ -198,6 +198,14 @@ public:
     /**
      * Operator -
      */
+    inline vector2<T> operator -() const
+    {
+        return vector2<T>(-x, -y);
+    }
+
+    /**
+     * Operator -
+     */
     inline vector2<T> operator -(const vector2<T> &v) const
     {
         return vector2<T> (x - v.x, y - v.y);
@@ -490,6 +498,14 @@ public:
         y -= v.y;
         z -= v.z;
         return *this;
+    }
+
+    /**
+     * Operator -
+     */
+    inline vector3<T> operator -() const
+    {
+        return vector3<T>(-x, -y, -z);
     }
 
     /**
@@ -802,6 +818,14 @@ public:
         z -= v.z;
         w -= v.w;
         return *this;
+    }
+
+    /**
+     * Operator -
+     */
+    inline vector4<T> operator -() const
+    {
+        return vector4<T>(-x, -y, -z, -w);
     }
 
     /**
