@@ -1,11 +1,13 @@
 #ifndef _MATH_QUATERNION_
 #define _MATH_QUATERNION_
 
-#include "math.h"
+#include <ostream>
+#include <cmath>
+
+#include "vector.h"
 
 namespace math
 {
-
 template<class T>
 class quaternion
 {
@@ -15,117 +17,272 @@ public:
     vector3<T> v;
     T w;
 
-    quaternion() : w(T(0))
+    quaternion(T w = T(0))
     {
-        v.set(T(0));
+        set(w);
     }
 
-    quaternion(T x, T y, T z, T w) :
-        w(w)
+    quaternion(T x, T y, T z, T w = T(0))
     {
-        v.set(x, y, z);
+        set(x, y, z, w);
     }
 
-    quaternion(vector3<T> v, T w) :
-        v(v), w(w)
+    quaternion(const vector3<T> &v, T w = T(0))
     {
+        set(v, w);
     }
 
-    quaternion(vector3<T> v) :
-        v(v), w(T(0))
+    quaternion(const T *a)
     {
-    }
-
-    quaternion(T w) :
-        w(w)
-    {
-        v.set(T(0));
+        set(a);
     }
 
     ~quaternion()
     {
     }
 
-    inline quaternion<T> &operator +=(const quaternion<T> &q) const
+    inline T &operator [](unsigned int i)
     {
-        this->v += q.v;
-        this->w += q.w;
+        get(i);
+    }
+
+    inline const T &operator [](unsigned int i) const
+    {
+        get(i);
+    }
+
+    inline T &operator ()(unsigned int i)
+    {
+        get(i);
+    }
+
+    inline const T &operator ()(unsigned int i) const
+    {
+        get(i);
+    }
+
+    inline operator T *()
+    {
+        return &v;
+    }
+
+    inline operator const T *() const
+    {
+        return &v;
+    }
+
+    inline T &get(unsigned int i)
+    {
+        return *(&v + i);
+    }
+
+    inline const T &get(unsigned int i) const
+    {
+        return *(&v + i);
+    }
+
+    inline vector3<T> &get_im()
+    {
+        return v;
+    }
+
+    inline const vector3<T> &get_im() const
+    {
+        return v;
+    }
+
+    inline T &get_re()
+    {
+        return w;
+    }
+
+    inline const T &get_re() const
+    {
+        return w;
+    }
+
+    inline quaternion<T> &set(T w = T(0))
+    {
+        v.set();
+        this->w = w;
         return *this;
     }
 
-    inline quaternion<T> operator +(const quaternion<T> &q) const
+    inline quaternion<T> &set(T x, T y, T z, T w = T(0))
     {
-        return quaternion<T>(v + q.v, w + q.w);
-    }
-
-    friend inline quaternion<T> operator+(const vector3<T> &v, const quaternion<T> &q)
-    {
-        return quaternion<T>(v + q.v, q.w);
-    }
-
-    friend inline quaternion<T> operator+(T n, const quaternion<T> &q)
-    {
-        return quaternion<T>(q.v, q.w + n);
-    }
-
-    inline quaternion<T> &operator -=(const quaternion<T> &q) const
-    {
-        this->v -= q.v;
-        this->w -= q.w;
+        v.set(x, y, z);
+        this->w = w;
         return *this;
     }
 
-    inline quaternion<T> operator -(const quaternion<T> &q) const
+    inline quaternion<T> &set(const vector3<T> &v, T w = T(0))
     {
-        return quaternion<T>(v - q.v, w - q.w);
-    }
-
-    friend inline quaternion<T> operator-(const vector3<T> &v, const quaternion<T> &q)
-    {
-        return quaternion<T>(v - q.v, q.w);
-    }
-
-    friend inline quaternion<T> operator-(T n, quaternion<T> &q)
-    {
-        return quaternion<T>(q.v, q.w - n);
-    }
-
-    inline quaternion<T> &operator *=(const quaternion<T> &q) const
-    {
-        v = dot(v, q.v) + w * q.v + q.w * v;
-        w = w * q.w - (T) v * q.v;
+        this->v = v;
+        this->w = w;
         return *this;
     }
 
-    inline quaternion<T> operator *(const quaternion<T> &q) const
+    inline quaternion<T> &set(const T *a)
     {
-        return quaternion<T>(dot(v, q.v) + w * q.v + q.w * v, w * q.w - (T) v * q.v);
+        v.set(a);
+        w = a[4];
+        return *this;
     }
 
-    friend inline quaternion<T> operator *(T n, const quaternion<T> &q)
+    inline quaternion<T> &operator +=(T rhs)
     {
-        return quaternion<T>(n * q.v, n * q.w);
+        w += rhs;
+        return *this;
     }
 
-    friend inline quaternion<T> operator *(const vector3<T> &v , const quaternion<T> &q)
+    inline quaternion<T> &operator +=(const vector3<T> &rhs)
     {
-        return quaternion<T>(dot(v, q.v) + q.w * v, - (T) v * q.v);
+        v += rhs;
+        return *this;
     }
 
-    inline T length() const
+    inline quaternion<T> &operator +=(const quaternion<T> &rhs)
     {
-        return std::sqrt<T>(v.x * v.x + v.y * v.y + v.z * v.z + w * w);
+        v += rhs.v;
+        w += rhs.w;
+        return *this;
+    }
+
+    inline quaternion<T> operator +(T rhs) const
+    {
+        return quaternion<T>(v, w + rhs);
+    }
+
+    inline quaternion<T> operator +(const vector3<T> &rhs) const
+    {
+        return quaternion<T>(v + rhs, w);
+    }
+
+    inline quaternion<T> operator +(const quaternion<T> &rhs) const
+    {
+        return quaternion<T>(v + rhs.v, w + rhs.w);
+    }
+
+    friend inline quaternion<T> operator +(T lhs, const quaternion<T> &rhs)
+    {
+        return quaternion<T>(rhs.v, lhs + rhs.w);
+    }
+
+    friend inline quaternion<T> operator +(const vector3<T> &lhs, const quaternion<T> &rhs)
+    {
+        return quaternion<T>(lhs + rhs.v, rhs.w);
+    }
+
+    inline quaternion<T> &operator -=(T rhs)
+    {
+        w -= rhs;
+        return *this;
+    }
+
+    inline quaternion<T> &operator -=(const vector3<T> &rhs)
+    {
+        v -= rhs;
+        return *this;
+    }
+
+    inline quaternion<T> &operator -=(const quaternion<T> &rhs)
+    {
+        v -= rhs.v;
+        w -= rhs.w;
+        return *this;
+    }
+
+    inline quaternion<T> operator -(T rhs) const
+    {
+        return quaternion<T>(v, w - rhs);
+    }
+
+    inline quaternion<T> operator -(const vector3<T> &rhs) const
+    {
+        return quaternion<T>(v - rhs, w);
+    }
+
+    inline quaternion<T> operator -(const quaternion<T> &rhs) const
+    {
+        return quaternion<T>(v - rhs.v, w - rhs.w);
+    }
+
+    friend inline quaternion<T> operator -(T lhs, const quaternion<T> &rhs)
+    {
+        return quaternion<T>(-rhs.v, lhs - rhs.w);
+    }
+
+    friend inline quaternion<T> operator -(const vector3<T> &lhs, const quaternion<T> &rhs)
+    {
+        return quaternion<T>(lhs - rhs.v, -rhs.w);
+    }
+
+    inline quaternion<T> &operator *=(T rhs)
+    {
+        v *= rhs;
+        w *= rhs;
+        return *this;
+    }
+
+    inline quaternion<T> &operator *=(const vector3<T> &rhs)
+    {
+        v = cross(v, rhs.v);
+        w = -dot(v, rhs.v);
+        return *this;
+    }
+
+    inline quaternion<T> &operator *=(const quaternion<T> &rhs)
+    {
+        v = cross(v, rhs.v) + w * rhs.v + rhs.w * v;
+        w = w * rhs.w - dot(v, rhs.v);
+        return *this;
+    }
+
+    inline quaternion<T> operator *(T rhs) const
+    {
+        return quaternion<T>(v * rhs, w * rhs);
+    }
+
+    inline quaternion<T> operator *(const vector3<T> &rhs) const
+    {
+        return quaternion<T>(cross(v, rhs) + w * rhs, -dot(v, rhs));
+    }
+
+    inline quaternion<T> operator *(const quaternion<T> &rhs) const
+    {
+        return quaternion<T>(cross(v, rhs.v) + w * rhs.v + rhs.w * v,
+                             w * rhs.w - dot(v, rhs.v));
+    }
+
+    friend inline quaternion<T> operator *(T lhs, const quaternion<T> &rhs)
+    {
+        return quaternion<T>(lhs * rhs.v, lhs * rhs.w);
+    }
+
+    friend inline quaternion<T> operator *(const vector3<T> &lhs, const quaternion<T> &rhs)
+    {
+        return quaternion<T>(cross(lhs, rhs.v) + rhs.w * lhs, -dot(lhs, rhs.v));
+    }
+
+    inline bool operator ==(const quaternion<T> &rhs) const
+    {
+        return v == rhs.v && w == rhs.w;
+    }
+
+    inline bool operator !=(const quaternion<T> &rhs) const
+    {
+        return v != rhs.v || w != rhs.w;
     }
 
     inline T norm() const
     {
-        return v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w;
+        return dot(v, v) + w * w;
     }
 
     inline quaternion<T> normalize() const
     {
-        T len = length();
-        return quaternion<T>(w / len, v.x / len, v.y / len, v.z / len);
+        T m = 1.0 / norm();
+        return quaternion<T>(v * m, w * m);
     }
 
     inline quaternion<T> conjugate() const
@@ -135,15 +292,13 @@ public:
 
     inline quaternion<T> inverse() const
     {
-        return conjugate();
+        return conjugate().normalize();
     }
-
 };
 
 typedef quaternion<float> quaternionf;
 typedef quaternion<double> quaterniond;
 typedef quaternion<long double> quaternionld;
-
 }
 
 #endif
