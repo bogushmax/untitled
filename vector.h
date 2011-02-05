@@ -57,9 +57,8 @@ public:
      */
     vector2(const vector4<T> &v)
     {
-        T m = 1.0 / v.w;
-        x *= m;
-        y *= m;
+        x = v.x / v.w;
+        y = v.x / v.w;
     }
 
     ~vector2()
@@ -243,7 +242,7 @@ public:
     /**
      * Operator /
      */
-    inline vector2<T> operator /(const T n) const
+    inline vector2<T> operator /(T n) const
     {
         return vector2<T> (x / n, y / n);
     }
@@ -275,7 +274,7 @@ public:
     /**
      * @return vector length
      */
-    inline T length() const
+    inline T norm() const
     {
         return std::sqrt(x * x + y * y);
     }
@@ -285,8 +284,7 @@ public:
      */
     inline vector2<T> normalize() const
     {
-        T m = 1.0 / length();
-        return vector2<T> (x * m, y * m);
+        return operator /(norm());
     }
 
     friend inline std::ostream &operator <<(std::ostream &s,
@@ -350,9 +348,9 @@ public:
     vector3(const vector4<T> &v)
     {
         T m = 1.0 / v.w;
-        x *= m;
-        y *= m;
-        z *= m;
+        x = v.x * m;
+        y = v.y * m;
+        z = v.z * m;
     }
 
     ~vector3()
@@ -534,18 +532,20 @@ public:
      */
     inline vector3<T> &operator /=(T n)
     {
-        x /= n;
-        y /= n;
-        z /= n;
+        T m = 1.0 / n;
+        x *= m;
+        y *= m;
+        z *= m;
         return *this;
     }
 
     /**
      * Operator /
      */
-    inline vector3<T> operator /(const T n) const
+    inline vector3<T> operator /(T n) const
     {
-        return vector3<T> (x / n, y / n, z / n);
+        T m = 1.0 / n;
+        return vector3<T> (x * m, y * m, z * m);
     }
 
     /**
@@ -585,7 +585,7 @@ public:
     /**
      * @return vector length
      */
-    inline T length() const
+    inline T norm() const
     {
         return std::sqrt(x * x + y * y + z * z);
     }
@@ -595,8 +595,7 @@ public:
      */
     inline vector3<T> normalize() const
     {
-        T m = 1.0 / length();
-        return vector3<T> (x * m, y * m, z * m);
+        return operator /(norm());
     }
 
     friend inline std::ostream &operator <<(std::ostream &s,
@@ -846,19 +845,21 @@ public:
      */
     inline vector4<T> &operator /=(T n)
     {
-        x /= n;
-        y /= n;
-        z /= n;
-        w /= n;
+        T m = 1.0 / n;
+        x *= m;
+        y *= m;
+        z *= m;
+        w *= m;
         return *this;
     }
 
     /**
      * Operator /
      */
-    inline vector4<T> operator /(const T n) const
+    inline vector4<T> operator /(T n) const
     {
-        return vector4<T> (x / n, y / n, z / n, w / n);
+        T m = 1.0 / n;
+        return vector4<T> (x * m, y * m, z * m, w * m);
     }
 
     /**
@@ -888,7 +889,7 @@ public:
     /**
      * @return vector length
      */
-    inline T length() const
+    inline T norm() const
     {
         return std::sqrt(x * x + y * y + z * z + w * w);
     }
@@ -898,8 +899,7 @@ public:
      */
     inline vector4<T> normalize() const
     {
-        T m = 1.0 / length();
-        return vector4<T> (x * m, y * m, z * m, w * m);
+        return operator /(norm());
     }
 
     friend inline std::ostream &operator <<(std::ostream &s,
