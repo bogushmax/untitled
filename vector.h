@@ -170,28 +170,28 @@ public:
     /**
      * Operator +=
      */
-    inline vector2<T> &operator +=(const vector2<T> &v)
+    inline vector2<T> &operator +=(const vector2<T> &rhs)
     {
-        x += v.x;
-        y += v.y;
+        x += rhs.x;
+        y += rhs.y;
         return *this;
     }
 
     /**
      * Operator +
      */
-    inline vector2<T> operator +(const vector2<T> &v) const
+    inline vector2<T> operator +(const vector2<T> &rhs) const
     {
-        return vector2<T> (x + v.x, y + v.y);
+        return vector2<T> (x + rhs.x, y + rhs.y);
     }
 
     /**
      * Operator -=
      */
-    inline vector2<T> &operator -=(const vector2<T> &v)
+    inline vector2<T> &operator -=(const vector2<T> &rhs)
     {
-        x -= v.x;
-        y -= v.y;
+        x -= rhs.x;
+        y -= rhs.y;
         return *this;
     }
 
@@ -206,77 +206,77 @@ public:
     /**
      * Operator -
      */
-    inline vector2<T> operator -(const vector2<T> &v) const
+    inline vector2<T> operator -(const vector2<T> &rhs) const
     {
-        return vector2<T> (x - v.x, y - v.y);
+        return vector2<T> (x - rhs.x, y - rhs.y);
     }
 
     /**
      * Operator *=
      */
-    inline vector2<T> &operator *=(T n)
+    inline vector2<T> &operator *=(T rhs)
     {
-        x *= n;
-        y *= n;
+        x *= rhs;
+        y *= rhs;
         return *this;
     }
 
     /**
      * Operator *
      */
-    inline vector2<T> operator *(const T n) const
+    inline vector2<T> operator *(const T rhs) const
     {
-        return vector2<T> (x * n, y * n);
+        return vector2<T> (x * rhs, y * rhs);
     }
 
     /**
      * Operator *
      */
-    friend inline vector2<T> operator *(const T n, const vector2<T> &v)
+    friend inline vector2<T> operator *(const T lhs, const vector2<T> &rhs)
     {
-        return vector2<T> (n * v.x, n * v.y);
+        return vector2<T> (lhs * rhs.x, lhs * rhs.y);
     }
 
     /**
      * Operator /=
      */
-    inline vector2<T> &operator /=(T n)
+    inline vector2<T> &operator /=(T rhs)
     {
-        x /= n;
-        y /= n;
+        x /= rhs;
+        y /= rhs;
         return *this;
     }
 
     /**
      * Operator /
      */
-    inline vector2<T> operator /(T n) const
+    inline vector2<T> operator /(T rhs) const
     {
-        return vector2<T> (x / n, y / n);
+        return vector2<T> (x / rhs, y / rhs);
     }
 
     /**
      * Operator ==
      */
-    inline bool operator ==(const vector2<T> &v) const
+    inline bool operator ==(const vector2<T> &rhs) const
     {
-        return x == v.x && y == v.y;
+        return x == rhs.x && y == rhs.y;
     }
 
     /**
      * Operator !=
      */
-    inline bool operator !=(const vector2<T> &v) const
+    inline bool operator !=(const vector2<T> &rhs) const
     {
-        return x != v.y || y != v.y;
+        return x != rhs.y || y != rhs.y;
     }
 
     /**
      * @return scalar product
      */
-    friend inline T dot(const vector2<T> &v1, const vector2<T> &v2)
+    friend inline T dot(const vector2<T> &lhs, const vector2<T> &rhs)
     {
-        return v1.x * v2.x + v1.y * v2.y;
+        return lhs.x * rhs.x + lhs.y * rhs.y;
     }
 
     /**
@@ -295,10 +295,10 @@ public:
         return operator /(norm());
     }
 
-    friend inline std::ostream &operator <<(std::ostream &s,
-            const vector2<T> &v)
+    friend inline std::ostream &operator <<(std::ostream &lhs,
+                                            const vector2<T> &rhs)
     {
-        return s << "(" << v.x << ", " << v.y << ")";
+        return lhs << "(" << rhs.x << ", " << rhs.y << ")";
     }
 };
 
@@ -473,30 +473,30 @@ public:
     /**
      * Operator +=
      */
-    inline vector3<T> &operator +=(const vector3<T> &v)
+    inline vector3<T> &operator +=(const vector3<T> &rhs)
     {
-        x += v.x;
-        y += v.y;
-        z += v.z;
+        x += rhs.x;
+        y += rhs.y;
+        z += rhs.z;
         return *this;
     }
 
     /**
      * Operator +
      */
-    inline vector3<T> operator +(const vector3<T> &v) const
+    inline vector3<T> operator +(const vector3<T> &rhs) const
     {
-        return vector3<T> (x + v.x, y + v.y, z + v.z);
+        return vector3<T> (x + rhs.x, y + rhs.y, z + rhs.z);
     }
 
     /**
      * Operator -=
      */
-    inline vector3<T> &operator -=(const vector3<T> &v)
+    inline vector3<T> &operator -=(const vector3<T> &rhs)
     {
-        x -= v.x;
-        y -= v.y;
-        z -= v.z;
+        x -= rhs.x;
+        y -= rhs.y;
+        z -= rhs.z;
         return *this;
     }
 
@@ -511,44 +511,44 @@ public:
     /**
      * Operator -
      */
-    inline vector3<T> operator -(const vector3<T> &v) const
+    inline vector3<T> operator -(const vector3<T> &rhs) const
     {
-        return vector3<T> (x - v.x, y - v.y, z - v.z);
+        return vector3<T> (x - rhs.x, y - rhs.y, z - rhs.z);
     }
 
     /**
      * Operator *=
      */
-    inline vector3<T> &operator *=(T n)
+    inline vector3<T> &operator *=(T rhs)
     {
-        x *= n;
-        y *= n;
-        z *= n;
+        x *= rhs;
+        y *= rhs;
+        z *= rhs;
         return *this;
     }
 
     /**
      * Operator *
      */
-    inline vector3<T> operator *(const T n) const
+    inline vector3<T> operator *(T rhs) const
     {
-        return vector3<T> (x * n, y * n, z * n);
+        return vector3<T> (x * rhs, y * rhs, z * rhs);
     }
 
     /**
      * Operator *
      */
-    friend inline vector3<T> operator *(const T n, const vector3<T> &v)
+    friend inline vector3<T> operator *(T lhs, const vector3<T> &rhs)
     {
-        return vector3<T> (n * v.x, n * v.y, n * v.z);
+        return vector3<T> (lhs * rhs.x, lhs * rhs.y, lhs * rhs.z);
     }
 
     /**
      * Operator /=
      */
-    inline vector3<T> &operator /=(T n)
+    inline vector3<T> &operator /=(T rhs)
     {
-        T m = 1.0 / n;
+        T m = 1.0 / rhs;
         x *= m;
         y *= m;
         z *= m;
@@ -558,44 +558,44 @@ public:
     /**
      * Operator /
      */
-    inline vector3<T> operator /(T n) const
+    inline vector3<T> operator /(T rhs) const
     {
-        T m = 1.0 / n;
+        T m = 1.0 / rhs;
         return vector3<T> (x * m, y * m, z * m);
     }
 
     /**
      * Operator ==
      */
-    inline bool operator ==(const vector3<T> &v) const
+    inline bool operator ==(const vector3<T> &rhs) const
     {
-        return x == v.x && y == v.y && z == v.z;
+        return x == rhs.x && y == rhs.y && z == rhs.z;
     }
 
     /**
      * Operator !=
      */
-    inline bool operator !=(const vector3<T> &v) const
+    inline bool operator !=(const vector3<T> &rhs) const
     {
-        return x != v.x || y != v.y || z != v.z;
+        return x != rhs.x || y != rhs.y || z != rhs.z;
     }
 
     /**
      * @return scalar product
      */
-    friend inline T dot(const vector3<T> &v1, const vector3<T> &v2)
+    friend inline T dot(const vector3<T> &lhs, const vector3<T> &rhs)
     {
-        return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+        return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
     }
 
     /**
      * @return vector product
      */
-    friend inline vector3<T> cross(const vector3<T> &v1, const vector3<T> &v2)
+    friend inline vector3<T> cross(const vector3<T> &lhs, const vector3<T> &rhs)
     {
-        return vector3<T> (v1.y * v2.z - v1.z * v2.y,
-                           v1.z * v2.x - v1.x * v2.z,
-                           v1.x * v2.y - v1.y * v2.x);
+        return vector3<T> (lhs.y * rhs.z - lhs.z * rhs.y,
+                           lhs.z * rhs.x - lhs.x * rhs.z,
+                           lhs.x * rhs.y - lhs.y * rhs.x);
     }
 
     /**
@@ -614,10 +614,10 @@ public:
         return operator /(norm());
     }
 
-    friend inline std::ostream &operator <<(std::ostream &s,
-            const vector3<T> &v)
+    friend inline std::ostream &operator <<(std::ostream &lhs,
+                                            const vector3<T> &rhs)
     {
-        return s << "(" << v.x << ", " << v.y << ", " << v.z << ")";
+        return lhs << "(" << rhs.x << ", " << rhs.y << ", " << rhs.z << ")";
     }
 };
 
@@ -791,32 +791,32 @@ public:
     /**
      * Operator +=
      */
-    inline vector4<T> &operator +=(const vector4<T> &v)
+    inline vector4<T> &operator +=(const vector4<T> &rhs)
     {
-        x += v.x;
-        y += v.y;
-        z += v.z;
-        w += v.w;
+        x += rhs.x;
+        y += rhs.y;
+        z += rhs.z;
+        w += rhs.w;
         return *this;
     }
 
     /**
      * Operator +
      */
-    inline vector4<T> operator +(const vector4<T> &v) const
+    inline vector4<T> operator +(const vector4<T> &rhs) const
     {
-        return vector4<T> (x + v.x, y + v.y, z + v.z, w + v.w);
+        return vector4<T> (x + rhs.x, y + rhs.y, z + rhs.z, w + rhs.w);
     }
 
     /**
      * Operator -=
      */
-    inline vector4<T> &operator -=(const vector4<T> &v)
+    inline vector4<T> &operator -=(const vector4<T> &rhs)
     {
-        x -= v.x;
-        y -= v.y;
-        z -= v.z;
-        w -= v.w;
+        x -= rhs.x;
+        y -= rhs.y;
+        z -= rhs.z;
+        w -= rhs.w;
         return *this;
     }
 
@@ -831,45 +831,45 @@ public:
     /**
      * Operator -
      */
-    inline vector4<T> operator -(const vector4<T> &v) const
+    inline vector4<T> operator -(const vector4<T> &rhs) const
     {
-        return vector4<T> (x - v.x, y - v.y, z - v.z, w - v.w);
+        return vector4<T> (x - rhs.x, y - rhs.y, z - rhs.z, w - rhs.w);
     }
 
     /**
      * Operator *=
      */
-    inline vector4<T> &operator *=(T n)
+    inline vector4<T> &operator *=(T rhs)
     {
-        x *= n;
-        y *= n;
-        z *= n;
-        w *= n;
+        x *= rhs;
+        y *= rhs;
+        z *= rhs;
+        w *= rhs;
         return *this;
     }
 
     /**
      * Operator *
      */
-    inline vector4<T> operator *(const T n) const
+    inline vector4<T> operator *(T rhs) const
     {
-        return vector4<T> (x * n, y * n, z * n, w * n);
+        return vector4<T> (x * rhs, y * rhs, z * rhs, w * rhs);
     }
 
     /**
      * Operator *
      */
-    friend inline vector4<T> operator *(const T n, const vector4<T> &v)
+    friend inline vector4<T> operator *(T lhs, const vector4<T> &rhs)
     {
-        return vector4<T> (n * v.x, n * v.y, n * v.z, n * v.w);
+        return vector4<T> (lhs * rhs.x, lhs * rhs.y, lhs * rhs.z, lhs * rhs.w);
     }
 
     /**
      * Operator /=
      */
-    inline vector4<T> &operator /=(T n)
+    inline vector4<T> &operator /=(T rhs)
     {
-        T m = 1.0 / n;
+        T m = 1.0 / rhs;
         x *= m;
         y *= m;
         z *= m;
@@ -880,34 +880,34 @@ public:
     /**
      * Operator /
      */
-    inline vector4<T> operator /(T n) const
+    inline vector4<T> operator /(T rhs) const
     {
-        T m = 1.0 / n;
+        T m = 1.0 / rhs;
         return vector4<T> (x * m, y * m, z * m, w * m);
     }
 
     /**
      * Operator ==
      */
-    inline bool operator ==(const vector4<T> &v) const
+    inline bool operator ==(const vector4<T> &rhs) const
     {
-        return x == v.x && y == v.y && z == v.z && w == v.w;
+        return x == rhs.x && y == rhs.y && z == rhs.z && w == rhs.w;
     }
 
     /**
      * Operator !=
      */
-    inline bool operator !=(const vector4<T> &v) const
+    inline bool operator !=(const vector4<T> &rhs) const
     {
-        return x != v.x || y != v.y || z != v.z || w != v.w;
+        return x != rhs.x || y != rhs.y || z != rhs.z || w != rhs.w;
     }
 
     /**
      * @return scalar product
      */
-    friend inline T dot(const vector4<T> &v1, const vector4<T> &v2)
+    friend inline T dot(const vector4<T> &lhs, const vector4<T> &rhs)
     {
-        return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
+        return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z + lhs.w * rhs.w;
     }
 
     /**
@@ -926,13 +926,13 @@ public:
         return operator /(norm());
     }
 
-    friend inline std::ostream &operator <<(std::ostream &s,
-            const vector4<T> &v)
+    friend inline std::ostream &operator <<(std::ostream &lhs,
+                                            const vector4<T> &rhs)
     {
-        return s << "(" << v.x << ", "
-                        << v.y << ", "
-                        << v.z << ", "
-                        << v.w << ")";
+        return lhs << "(" << rhs.x << ", "
+                          << rhs.y << ", "
+                          << rhs.z << ", "
+                          << rhs.w << ")";
     }
 };
 
