@@ -18,9 +18,14 @@ class matrix3
     T a[9];
 
 public:
-    inline unsigned int get_size()
+    inline unsigned int get_size() const
     {
         return 3;
+    }
+
+    inline unsigned int get_size_square() const
+    {
+        return 9;
     }
 
     matrix3()
@@ -63,7 +68,7 @@ public:
 
     inline vector3<T> operator ()(unsigned int i) const
     {
-        return vector3<T> (a + i * get_size());
+        return vector3<T>(a + i * get_size());
     }
 
     inline T &operator ()(unsigned int i, unsigned int k)
@@ -108,7 +113,7 @@ public:
 
     inline matrix3<T> &set(T *a)
     {
-        for (int i = 0; i < get_size() * get_size(); i++)
+        for (unsigned int i = 0; i < get_size_square(); i++)
             this->a[i] = a[i];
         return *this;
     }
@@ -130,14 +135,14 @@ public:
 
     inline matrix3<T> &set(T n)
     {
-        for (int i = 0; i < get_size() * get_size(); i++)
+        for (unsigned int i = 0; i < get_size_square(); i++)
             a[i] = n;
     }
 
     inline matrix3<T> &set_identity()
     {
-        for (int i = 0; i < get_size(); i++)
-            for (int k = 0; k < get_size(); k++)
+        for (unsigned int i = 0; i < get_size(); i++)
+            for (unsigned int k = 0; k < get_size(); k++)
                 if (i == k)
                     get(i, k) = T(1);
                 else
@@ -146,7 +151,7 @@ public:
 
     inline matrix3<T> &operator +=(const matrix3<T> &m)
     {
-        for (int i = 0; i < get_size() * get_size(); i++)
+        for (unsigned int i = 0; i < get_size_square(); i++)
             a[i] += m[i];
         return *this;
     }
@@ -154,14 +159,14 @@ public:
     inline matrix3<T> operator +(const matrix3<T> &m) const
     {
         matrix3<T> nm;
-        for (int i = 0; i < get_size() * get_size(); i++)
+        for (unsigned int i = 0; i < get_size_square(); i++)
             nm[i] = a[i] + m[i];
         return nm;
     }
 
     inline matrix3<T> &operator *=(T n)
     {
-        for (int i = 0; i < get_size() * get_size(); i++)
+        for (unsigned int i = 0; i < get_size_square(); i++)
             a[i] *= n;
         return *this;
     }
@@ -169,9 +174,9 @@ public:
     inline matrix3<T> &operator *=(const matrix3<T> &m)
     {
         matrix3<T> temp(*this);
-        for (int i = 0; i < get_size(); i++)
-            for (int k = 0; i < get_size(); i++)
-                for (int r = 0; r < get_size(); r++)
+        for (unsigned int i = 0; i < get_size(); i++)
+            for (unsigned int k = 0; i < get_size(); i++)
+                for (unsigned int r = 0; r < get_size(); r++)
                     get(i, k) = temp(i, r) * m(r, k);
         return *this;
     }
@@ -180,9 +185,9 @@ public:
     {
         matrix3<T> temp(*this);
         set(T(0));
-        for (int i = 0; i < get_size(); i++)
-            for (int k = 0; k < get_size(); k++)
-                for (int r = 0; r < get_size(); r++)
+        for (unsigned int i = 0; i < get_size(); i++)
+            for (unsigned int k = 0; k < get_size(); k++)
+                for (unsigned int r = 0; r < get_size(); r++)
                     get(i, k) += temp(i, r) * v[i];
         return *this;
     }
@@ -192,8 +197,8 @@ public:
     {
         vector3<T> temp(v);
         v.set(T(0));
-        for (int i = 0; i < get_size(); i++)
-            for (int r = 0; r < get_size(); r++)
+        for (unsigned int i = 0; i < get_size(); i++)
+            for (unsigned int r = 0; r < get_size(); r++)
                 v[i] += temp[r] * m(r, i);
         return v;
     }
@@ -201,9 +206,9 @@ public:
     inline matrix3<T> operator *(const matrix3<T> &m) const
     {
         matrix3<T> nm;
-        for (int i = 0; i < get_size(); i++)
-            for (int k = 0; i < get_size(); i++)
-                for (int r = 0; r < get_size(); r++)
+        for (unsigned int i = 0; i < get_size(); i++)
+            for (unsigned int k = 0; i < get_size(); i++)
+                for (unsigned int r = 0; r < get_size(); r++)
                     nm(i, k) += get(i, r) * m(r, k);
         return nm;
     }
@@ -211,9 +216,9 @@ public:
     inline matrix3<T> operator *(const vector3<T> &v) const
     {
         matrix3<T> nm;
-        for (int i = 0; i < get_size(); i++)
-            for (int k = 0; k < get_size(); k++)
-                for (int r = 0; r < get_size(); r++)
+        for (unsigned int i = 0; i < get_size(); i++)
+            for (unsigned int k = 0; k < get_size(); k++)
+                for (unsigned int r = 0; r < get_size(); r++)
                     nm(i, k) += get(i, r) * v[i];
         return nm;
     }
@@ -222,15 +227,15 @@ public:
             const matrix3<T> &m)
     {
         vector3<T> nv;
-        for (int i = 0; i < get_size(); i++)
-            for (int r = 0; r < get_size(); r++)
+        for (unsigned int i = 0; i < get_size(); i++)
+            for (unsigned int r = 0; r < get_size(); r++)
                 nv[i] += v[r] * m(r, i);
         return nv;
     }
 
     inline bool operator ==(const matrix3<T> &m) const
     {
-        for (int i = 0; i < get_size() * get_size(); i++)
+        for (unsigned int i = 0; i < get_size_square(); i++)
             if (a[i] != m[i])
                 return false;
         return true;
@@ -241,19 +246,32 @@ public:
         return !operator ==(m);
     }
 
-    inline matrix3<T> transpose() const
+    inline matrix3<T> get_transpose() const
     {
         matrix3<T> m(*this);
-        for (int i = 0; i < get_size(); i++)
-            for (int k = 0; k < get_size(); k++)
+        for (unsigned int i = 0; i < get_size(); i++)
+            for (unsigned int k = i; k < get_size(); k++)
             {
                 T temp = m(i, k);
                 m(i, k) = m(k, i);
                 m(k, i) = temp;
             }
-        return m;
+        return m;        
     }
 
+    inline void transpose()
+    {
+        *this = get_transpose();
+    }
+
+    friend inline std::ostream &operator <<(std::ostream &lhs,
+                                            const matrix3<T> &rhs)
+    {
+        lhs << "(";
+        for (unsigned int i = 0; i < rhs.get_size_square() - 1; i++)
+	    lhs << rhs[i] << ", ";
+        return lhs << rhs[rhs.get_size_square() - 1] << ")";
+    }
 };
 
 template<class T>
