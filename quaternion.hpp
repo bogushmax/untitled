@@ -493,6 +493,12 @@ public:
         *this = get_inverse();
 	return *this;
     }
+
+    friend inline std::ostream &operator <<(std::ostream &lhs,
+                                            const vector4<T> &rhs)
+    {
+        return lhs << rhs.v << rhs.w;
+    }
 };
 
 typedef quaternion<float> quaternionf;
