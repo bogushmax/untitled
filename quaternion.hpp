@@ -4,7 +4,7 @@
 #include <ostream>
 #include <cmath>
 
-#include "vector.h"
+#include "vector.hpp"
 
 namespace math
 {
@@ -437,7 +437,7 @@ public:
     /**
      * @return quaternion norm
      */
-    inline T norm() const
+    inline T get_norm() const
     {
         return dot(v, v) + w * w;
     }
@@ -445,26 +445,53 @@ public:
     /**
      * @return normalized quaternion
      */
-    inline quaternion<T> normalize() const
+    inline quaternion<T> get_normalize() const
     {
-        T m = 1.0 / norm();
+        T m = 1.0 / get_norm();
         return quaternion<T>(v * m, w * m);
+    }
+
+    /**
+     * Set normalized quaternion
+     */
+    inline quaternion<T> &normalize()
+    {
+        *this = get_normalize();
+	return *this;
     }
 
     /**
      * @return conjugated quaternion
      */
-    inline quaternion<T> conjugate() const
+    inline quaternion<T> get_conjugate() const
     {
         return quaternion<T>(-v, w);
     }
 
     /**
+     * Set conjugated quaternion
+     */
+    inline quaternion<T> &conjugate() 
+    {
+        *this = get_conjugate();
+	return *this;
+    }
+
+    /**
      * @return inversed quaternion
      */
-    inline quaternion<T> inverse() const
+    inline quaternion<T> get_inverse() const
     {
         return conjugate().normalize();
+    }
+
+    /**
+     * Set inversed quaternion
+     */
+    inline quaternion<T> &inverse()
+    {
+        *this = get_inverse();
+	return *this;
     }
 };
 
