@@ -4,7 +4,7 @@
 #include <iostream>
 #include <cmath>
 
-#include "vector.h"
+#include "vector.hpp"
 
 namespace math
 {
