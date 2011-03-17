@@ -1,7 +1,7 @@
 #ifndef _MATH_VECTOR_
 #define _MATH_VECTOR_
 
-#include <ostream>
+#include <iostream>
 #include <cmath>
 
 namespace math

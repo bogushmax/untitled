@@ -1,7 +1,7 @@
 #ifndef _MATH_QUATERNION_
 #define _MATH_QUATERNION_
 
-#include <ostream>
+#include <iostream>
 #include <cmath>
 
 #include "vector.hpp"
